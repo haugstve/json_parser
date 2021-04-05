@@ -8,6 +8,20 @@ from pytz import timezone
 from validate_input import Source
 
 
+# Hack, https://github.com/lidatong/dataclasses-json/issues/254
+def date_isoformat(input):
+    if input:
+        return date.isoformat(input)
+    return None
+
+
+# Hack, https://github.com/lidatong/dataclasses-json/issues/254
+def time_isoformat(input):
+    if input:
+        return time.isoformat(input)
+    return None
+
+
 @dataclass
 class Target((DataClassJsonMixin)):
     path: str
@@ -22,11 +36,11 @@ class Target((DataClassJsonMixin)):
         metadata=config(encoder=time.isoformat, decoder=time.fromisoformat)
     )
     updated_date: Optional[date] = field(
-        metadata=config(encoder=date.isoformat, decoder=date.fromisoformat),
+        metadata=config(encoder=date_isoformat, decoder=date.fromisoformat),
         default=None,
     )
     updated_time: Optional[time] = field(
-        metadata=config(encoder=time.isoformat, decoder=time.fromisoformat),
+        metadata=config(encoder=time_isoformat, decoder=time.fromisoformat),
         default=None,
     )
     items: Optional[List[str]] = None
