@@ -155,3 +155,27 @@ def test_error_when_path_used_as_input():
     }""".strip()
     with pytest.raises(KeyError):
         Source.from_json(input_payload)
+
+
+def test_error_when_content_has_no_mark():
+    input_payload = """
+    {
+        "address": "https://www.google.com ",
+        "content": {
+            "description": "Some description"
+        },
+        "updated": "2021-02-26T08:21:20+00:00",
+        "author": {
+            "username": "Bob",
+            "id": "68712648721648271"
+        },
+        "id": "543435435",
+        "created": "2021-02-25T16:25:21+00:00",
+        "counters": {
+            "score": 3,
+            "mistakes": 0
+        },
+        "type": "main"
+    }""".strip()
+    with pytest.raises(KeyError):
+        Source.from_json(input_payload)
