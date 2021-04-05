@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from dataclasses_json import DataClassJsonMixin, config
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 from marshmallow import fields
 
@@ -31,7 +31,6 @@ class Counters(DataClassJsonMixin):
 @dataclass
 class Input((DataClassJsonMixin)):
     address: str
-    content: Content
     id: str
     author: Author
     created: datetime = field(
@@ -49,3 +48,4 @@ class Input((DataClassJsonMixin)):
         )
     )
     counters: Counters
+    content: Optional[Content] = None
