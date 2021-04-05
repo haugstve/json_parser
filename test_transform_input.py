@@ -1,7 +1,6 @@
 from validate_input import Source
 from transform_input import Target
 import json
-import pytest
 
 
 def test_no_error_example_input():
@@ -87,7 +86,9 @@ def test_to_json_example_input():
         "counters_total": 3
     }
     """.strip()
-    assert target.to_json() == json.dumps(json.loads(target_payload))
+    assert target.to_json(sort_keys=True) == json.dumps(
+        json.loads(target_payload), sort_keys=True
+    )
 
 
 def test_no_error_missing_content():
@@ -109,7 +110,40 @@ def test_no_error_missing_content():
     }
     """.strip()
     source = Source.from_json(input_payload)
-    Target(source)
+    target = Target(source)
+    target.to_json()
+
+
+def test_no_error_missing_updated():
+    input_payload = """
+    {
+        "address": "https://www.google.com ",
+        "content": {
+            "marks": [
+                {
+                    "text": "marks"
+                },
+                {
+                    "text": "season"
+                }
+            ],
+            "description": "Some description"
+        },
+        "author": {
+            "username": "Bob",
+            "id": "68712648721648271"
+        },
+        "id": "543435435",
+        "created": "2021-02-25T16:25:21+00:00",
+        "counters": {
+            "score": 3,
+            "mistakes": 0
+        },
+        "type": "main"
+    }""".strip()
+    source = Source.from_json(input_payload)
+    target = Target(source)
+    target.to_json()
 
 
 def test_created_not_utc():
@@ -182,6 +216,3 @@ def test_counters_correct():
     source = Source.from_json(input_payload)
     target = Target(source)
     assert target.counters_total == 8
-
-
-test_created_not_utc()
