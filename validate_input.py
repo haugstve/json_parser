@@ -28,6 +28,13 @@ class Counters(DataClassJsonMixin):
     mistakes: int
 
 
+# Hack, https://github.com/lidatong/dataclasses-json/issues/254
+def datetime_fromisoformat(input):
+    if input:
+        return datetime.fromisoformat(input)
+    return None
+
+
 @dataclass
 class Source((DataClassJsonMixin)):
     address: str
@@ -40,12 +47,13 @@ class Source((DataClassJsonMixin)):
             mm_field=fields.DateTime(format="iso"),
         )
     )
-    updated: datetime = field(
+    counters: Counters
+    updated: Optional[datetime] = field(
         metadata=config(
             encoder=datetime.isoformat,
-            decoder=datetime.fromisoformat,
+            decoder=datetime_fromisoformat,
             mm_field=fields.DateTime(format="iso"),
-        )
+        ),
+        default=None,
     )
-    counters: Counters
     content: Optional[Content] = None
