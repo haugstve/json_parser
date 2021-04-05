@@ -3,6 +3,7 @@ from dataclasses_json import DataClassJsonMixin, config
 from typing import List
 from datetime import date
 from datetime import time
+from pytz import timezone
 
 from validate_input import Source
 
@@ -37,9 +38,11 @@ class Target((DataClassJsonMixin)):
         self.id = source.id
         self.author_name = source.author.username
         self.author_id = source.author.id
-        self.created_date = source.created.date()
-        self.created_time = source.created.time()
+        created_UTC = source.created.astimezone(timezone("UTC"))
+        self.created_date = created_UTC.date()
+        self.created_time = created_UTC.time()
         if source.updated:
-            self.updated_date = source.updated.date()
-            self.updated_time = source.updated.time()
+            updated_UTC = source.updated.astimezone(timezone("UTC"))
+            self.updated_date = updated_UTC.date()
+            self.updated_time = updated_UTC.time()
         self.counters_total = source.counters.mistakes + source.counters.score

@@ -4,3 +4,4 @@ pytest
 dataclasses-json
 flake8-bugbear
 jupyter
+pytz
