@@ -29,7 +29,7 @@ class Counters(DataClassJsonMixin):
 
 
 @dataclass
-class Input((DataClassJsonMixin)):
+class Source((DataClassJsonMixin)):
     address: str
     id: str
     author: Author

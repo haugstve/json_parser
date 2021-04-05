@@ -1,4 +1,4 @@
-from validate_input import Input
+from validate_input import Source
 import json
 
 
@@ -10,5 +10,5 @@ with open("example.json") as input_file:
     input_payload = input_file.read()
 
 
-test_input = Input.from_json(input_payload)
+test_input = Source.from_json(input_payload)
 pretty_print(test_input.to_json())

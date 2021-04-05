@@ -1,4 +1,4 @@
-from validate_input import Input
+from validate_input import Source
 import pytest
 
 
@@ -36,7 +36,7 @@ def test_no_error_example_input():
         },
         "type": "main"
     }""".strip()
-    Input.from_json(input_payload)
+    Source.from_json(input_payload)
 
 
 def test_no_error_missing_content():
@@ -57,7 +57,7 @@ def test_no_error_missing_content():
         "type": "main"
     }
     """.strip()
-    Input.from_json(input_payload)
+    Source.from_json(input_payload)
 
 
 def test_error_when_missing_address():
@@ -78,7 +78,7 @@ def test_error_when_missing_address():
     }
     """.strip()
     with pytest.raises(KeyError):
-        Input.from_json(input_payload)
+        Source.from_json(input_payload)
 
 
 def test_error_when_dateformat_is_wrong():
@@ -116,7 +116,7 @@ def test_error_when_dateformat_is_wrong():
         "type": "main"
     }""".strip()
     with pytest.raises(ValueError):
-        Input.from_json(input_payload)
+        Source.from_json(input_payload)
 
 
 def test_error_when_path_used_as_input():
@@ -154,4 +154,4 @@ def test_error_when_path_used_as_input():
         "type": "main"
     }""".strip()
     with pytest.raises(KeyError):
-        Input.from_json(input_payload)
+        Source.from_json(input_payload)
