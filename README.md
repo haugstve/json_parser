@@ -30,8 +30,8 @@ curl --location --request POST 'localhost:8000/transform' \
 ## Run the tests
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
-python -m pip install -r requirements-dev.txt
-python -m pytest -v
+python3 -m pip install -r requirements-dev.txt
+PYTHONPATH=$(pwd)/src/ python3 -m pytest -v
 ```
