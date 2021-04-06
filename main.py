@@ -13,5 +13,10 @@ def transform_json(input: Source):
     return target.to_json()
 
 
+@app.post("/validate")
+def validate_json(input: Source):
+    return input.json()
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
