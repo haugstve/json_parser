@@ -1,5 +1,6 @@
 from validate_input import Source
 import pytest
+from pydantic.error_wrappers import ValidationError
 
 
 def test_no_error_example_input():
@@ -36,7 +37,7 @@ def test_no_error_example_input():
         },
         "type": "main"
     }""".strip()
-    Source.from_json(input_payload)
+    Source.parse_raw(input_payload)
 
 
 def test_no_error_missing_content():
@@ -57,7 +58,7 @@ def test_no_error_missing_content():
         "type": "main"
     }
     """.strip()
-    Source.from_json(input_payload)
+    Source.parse_raw(input_payload)
 
 
 def test_no_error_missing_updated():
@@ -93,7 +94,7 @@ def test_no_error_missing_updated():
         },
         "type": "main"
     }""".strip()
-    Source.from_json(input_payload)
+    Source.parse_raw(input_payload)
 
 
 def test_error_when_missing_address():
@@ -113,8 +114,8 @@ def test_error_when_missing_address():
         "type": "main"
     }
     """.strip()
-    with pytest.raises(KeyError):
-        Source.from_json(input_payload)
+    with pytest.raises(ValidationError):
+        Source.parse_raw(input_payload)
 
 
 def test_error_when_dateformat_is_wrong():
@@ -152,7 +153,7 @@ def test_error_when_dateformat_is_wrong():
         "type": "main"
     }""".strip()
     with pytest.raises(ValueError):
-        Source.from_json(input_payload)
+        Source.parse_raw(input_payload)
 
 
 def test_error_when_path_used_as_input():
@@ -189,8 +190,8 @@ def test_error_when_path_used_as_input():
         },
         "type": "main"
     }""".strip()
-    with pytest.raises(KeyError):
-        Source.from_json(input_payload)
+    with pytest.raises(ValidationError):
+        Source.parse_raw(input_payload)
 
 
 def test_error_when_content_has_no_mark():
@@ -213,8 +214,8 @@ def test_error_when_content_has_no_mark():
         },
         "type": "main"
     }""".strip()
-    with pytest.raises(KeyError):
-        Source.from_json(input_payload)
+    with pytest.raises(ValidationError):
+        Source.parse_raw(input_payload)
 
 
 test_no_error_missing_updated()

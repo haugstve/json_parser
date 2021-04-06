@@ -31,7 +31,7 @@ def test_no_error_example_input():
         },
         "type": "main"
     }""".strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     Target(source)
 
 
@@ -69,7 +69,7 @@ def test_to_json_example_input():
         },
         "type": "main"
     }""".strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     target = Target(source)
     target_payload = """
     {
@@ -109,7 +109,7 @@ def test_no_error_missing_content():
         "type": "main"
     }
     """.strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     target = Target(source)
     target.to_json()
 
@@ -141,7 +141,7 @@ def test_no_error_missing_updated():
         },
         "type": "main"
     }""".strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     target = Target(source)
     target.to_json()
 
@@ -174,7 +174,7 @@ def test_created_not_utc():
         },
         "type": "main"
     }""".strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     target = Target(source)
     assert str(target.created_time) == "15:25:21"
 
@@ -213,6 +213,6 @@ def test_counters_correct():
         },
         "type": "main"
     }""".strip()
-    source = Source.from_json(input_payload)
+    source = Source.parse_raw(input_payload)
     target = Target(source)
     assert target.counters_total == 8
