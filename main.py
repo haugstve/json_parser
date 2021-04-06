@@ -1,17 +1,17 @@
+from fastapi import FastAPI
+import uvicorn
+
 from validate_input import Source
 from transform_input import Target
-import json
+
+app = FastAPI()
 
 
-def pretty_print(json_str):
-    print(json.dumps(json.loads(json_str), indent=4))
+@app.post("/transform")
+def transform_json(input: Source):
+    target = Target(input)
+    return target.to_json()
 
 
-with open("example.json") as input_file:
-    input_payload = input_file.read()
-
-test_input = Source.from_json(input_payload)
-pretty_print(test_input.to_json())
-
-test_output = Target(test_input)
-pretty_print(test_output.to_json())
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
