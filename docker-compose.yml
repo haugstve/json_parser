@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   api:
+    container_name: json_parser
     image: retriever
     networks:
       - default
@@ -14,14 +15,21 @@ services:
       - 8000:8000
 
   db:
-    image: "postgres" # use latest official postgres version
+    container_name: postgres_container
+    image: postgres
     networks:
-      - default
+      - postgres
     ports:
-      - 5405:5432
+      - 5432:5432
     env_file:
-      - database.env # configure postgres
+      - database.env
     volumes:
-      - db-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+        - postgres:/data/postgres
+
+
+networks:
+  postgres:
+    driver: bridge
+
 volumes:
-  db-data: # named volumes can be managed easier using docker-compose
+    postgres:
