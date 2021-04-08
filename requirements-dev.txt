@@ -7,3 +7,4 @@ jupyter
 pytz
 fastapi
 uvicorn
+psycopg2

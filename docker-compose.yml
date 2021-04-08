@@ -5,9 +5,13 @@ services:
     container_name: json_parser
     image: retriever
     networks:
-      - default
+      - parser
     depends_on:
       - db
+    environment:
+      - DB_HOST=postgres_container
+    env_file:
+      - database.env
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -18,7 +22,7 @@ services:
     container_name: postgres_container
     image: postgres
     networks:
-      - postgres
+      - parser
     ports:
       - 5432:5432
     env_file:
@@ -28,7 +32,7 @@ services:
 
 
 networks:
-  postgres:
+  parser:
     driver: bridge
 
 volumes:
