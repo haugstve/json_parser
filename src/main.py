@@ -3,6 +3,7 @@ import uvicorn
 
 from validate_input import Source
 from transform_input import Target
+from connect import connect
 
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -19,6 +20,11 @@ def transform_json(input: Source):
 @app.post("/validate")
 def validate_json(input: Source):
     return JSONResponse(content=jsonable_encoder(input))
+
+
+@app.get("/connect")
+def connect_to_db():
+    connect()
 
 
 if __name__ == "__main__":
