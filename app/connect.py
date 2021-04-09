@@ -27,7 +27,6 @@ class DataBase:
             self.conn = self.connect()
         cur = self.conn.cursor()
         command = f"INSERT INTO {self.table_name} (info) VALUES('{payload.to_json()}');"
-        print(f"Running command: {command}")
         cur.execute(command)
         cur.close()
 
@@ -36,21 +35,16 @@ class DataBase:
             self.connect()
         cur = self.conn.cursor()
         command = f"SELECT info from {self.table_name};"
-        print(f"Running command: {command}")
         cur.execute(command)
         result = cur.fetchall()
-        print(f"Result from query: {result}")
         cur.close()
         return result
 
     def connect(self):
-        """ Connect to the PostgreSQL database server """
         if self.conn is not None:
             self.conn.close()
-            print("Database connection closed.")
         try:
             params = self._get_config_()
-            print("Connecting to the PostgreSQL database...")
             self.conn = psycopg2.connect(**params)
             self.conn.autocommit = True
         except (Exception, psycopg2.DatabaseError) as error:
@@ -62,7 +56,6 @@ class DataBase:
         config["password"] = os.environ["POSTGRES_PASSWORD"]
         config["database"] = os.environ["POSTGRES_DB"]
         config["host"] = os.environ["DB_HOST"]
-        print(f"Returning database info {config}")
         return config
 
     def test_connection(self):
