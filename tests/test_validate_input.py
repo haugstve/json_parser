@@ -1,4 +1,4 @@
-from src.validate_input import Source
+from app.validate_input import Source
 import pytest
 from pydantic.error_wrappers import ValidationError
 

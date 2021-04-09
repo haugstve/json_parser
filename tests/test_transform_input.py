@@ -1,5 +1,5 @@
-from src.validate_input import Source
-from src.transform_input import Target
+from app.validate_input import Source
+from app.transform_input import Target
 import json
 
 
