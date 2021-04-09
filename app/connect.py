@@ -56,15 +56,3 @@ class DataBase:
         config["database"] = os.environ["POSTGRES_DB"]
         config["host"] = os.environ["DB_HOST"]
         return config
-
-    def test_connection(self):
-        if not self.conn:
-            self.conn = self.connect()
-        cur = self.conn.cursor()
-        print("PostgreSQL database version:")
-        cur.execute("SELECT version()")
-
-        db_version = cur.fetchone()
-        print(db_version)
-
-        cur.close()
