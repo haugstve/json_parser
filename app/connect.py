@@ -2,6 +2,8 @@ from typing import Dict
 import psycopg2
 import os
 from transform_input import Target
+from psycopg2.sql import Identifier
+from psycopg2.sql import SQL
 
 
 class DataBase:
@@ -17,25 +19,28 @@ class DataBase:
         if not self.conn:
             self.connect()
         with self.conn.cursor() as cur:
-            command = f"CREATE TABLE IF NOT EXISTS {self.table_name} (id serial NOT NULL PRIMARY KEY, info json NOT NULL);"
-            print(command)
-            cur.execute(command)
+            cur.execute(
+                SQL(
+                    "CREATE TABLE IF NOT EXISTS {} (id serial NOT NULL PRIMARY KEY, info json NOT NULL);"
+                ).format(Identifier(self.table_name))
+            )
 
     def add_json_to_table(self, payload: Target) -> None:
         if not self.conn:
             self.conn = self.connect()
         with self.conn.cursor() as cur:
-            command = (
-                f"INSERT INTO {self.table_name} (info) VALUES('{payload.to_json()}');"
+            cur.execute(
+                SQL("INSERT INTO {} (info) VALUES(%s);").format(
+                    Identifier(self.table_name)
+                ),
+                (payload.to_json(),),
             )
-            cur.execute(command)
 
     def read_all_entries(self) -> None:
         if not self.conn:
             self.connect()
         with self.conn.cursor() as cur:
-            command = f"SELECT info from {self.table_name};"
-            cur.execute(command)
+            cur.execute(SQL("SELECT info from {};").format(Identifier(self.table_name)))
             result = cur.fetchall()
         return result
 
