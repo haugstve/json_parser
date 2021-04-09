@@ -5,7 +5,7 @@
 These points could have been clearified but just making some assumptions solves the task. Demonstrating my Python skills.
 
 - If Content is present in the input JSON, it must have both a marks field and a description field
-- Time in postgres is stored as UTC
+- Time in postgres is stored as UTC (Best practise would be to save with the time zone information)
 
 ## Running the app
 
