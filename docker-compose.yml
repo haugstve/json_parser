@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
   api:
-    container_name: json_parser
-    image: retriever
+    container_name: json_parser_container
+    image: json_parser
     networks:
       - parser
     depends_on:
