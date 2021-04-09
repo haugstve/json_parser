@@ -9,7 +9,7 @@ These points could have been clearified but just making some assumptions solves 
 
 ## Running the app
 
-docker compose up
+docker-compose up -d
 
 A web app will be running on localhost port 8000, postgres will run on 5432
 
@@ -28,7 +28,7 @@ curl --location --request POST 'localhost:8000/validate' \
 ```bash
 curl --location --request POST 'localhost:8000/transform' \
 --header 'Content-Type: text/plain' \
---data-raw '{"address" : "https://www.google.com ","content" : {"marks" : [{"text": "marks"},{"text": "season"},{"text": "foo"},{"text": "bar"}],"description" : "Some description"},"updated" : "2021-02-26T08:21:20+00:00","author" : {"username" : "Bob","id" : "68712648721648271"},"id" : "543435435","created" : "2021-02-25T16:25:21+00:00","counters" : {"score" : 3,"mistakes" : 0},"type" : "main"
+--data-raw '{"address" : "https://www.google.com ","content" : {"marks" : [{"text": "marks"},{"text": "season"},{"text": "foo"},{"text": "bar"}],"description" : "Some description"},"updated" : "2021-02-26T08:21:20+00:00","author" : {"username" : "Bob","id" : "68712648721648271"},"id" : "543435435","created" : "2021-02-25T16:25:21+00:00","counters" : {"score" : 3,"mistakes" : 0},"type" : "main"}'
 ```
 
 ### Validate input, transform to target format and store to DB
