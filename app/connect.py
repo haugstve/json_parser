@@ -10,12 +10,12 @@ class DataBase:
 
     def __init__(self, table_name) -> None:
         self.table_name = table_name
-        self.conn = self.connect()
+        self.connect()
         self.create_table()
 
     def create_table(self) -> None:
         if not self.conn:
-            self.conn = self.connect()
+            self.connect()
         cur = self.conn.cursor()
         command = f"CREATE TABLE IF NOT EXISTS {self.table_name} (id serial NOT NULL PRIMARY KEY, info json NOT NULL);"
         print(command)
@@ -33,7 +33,7 @@ class DataBase:
 
     def read_all_entries(self) -> None:
         if not self.conn:
-            self.conn = self.connect()
+            self.connect()
         cur = self.conn.cursor()
         command = f"SELECT info from {self.table_name};"
         print(f"Running command: {command}")
@@ -51,9 +51,8 @@ class DataBase:
         try:
             params = self._get_config_()
             print("Connecting to the PostgreSQL database...")
-            conn = psycopg2.connect(**params)
-            conn.autocommit = True
-            return conn
+            self.conn = psycopg2.connect(**params)
+            self.conn.autocommit = True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
