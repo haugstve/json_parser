@@ -16,28 +16,27 @@ class DataBase:
     def create_table(self) -> None:
         if not self.conn:
             self.connect()
-        cur = self.conn.cursor()
-        command = f"CREATE TABLE IF NOT EXISTS {self.table_name} (id serial NOT NULL PRIMARY KEY, info json NOT NULL);"
-        print(command)
-        cur.execute(command)
-        cur.close()
+        with self.conn.cursor() as cur:
+            command = f"CREATE TABLE IF NOT EXISTS {self.table_name} (id serial NOT NULL PRIMARY KEY, info json NOT NULL);"
+            print(command)
+            cur.execute(command)
 
     def add_json_to_table(self, payload: Target) -> None:
         if not self.conn:
             self.conn = self.connect()
-        cur = self.conn.cursor()
-        command = f"INSERT INTO {self.table_name} (info) VALUES('{payload.to_json()}');"
-        cur.execute(command)
-        cur.close()
+        with self.conn.cursor() as cur:
+            command = (
+                f"INSERT INTO {self.table_name} (info) VALUES('{payload.to_json()}');"
+            )
+            cur.execute(command)
 
     def read_all_entries(self) -> None:
         if not self.conn:
             self.connect()
-        cur = self.conn.cursor()
-        command = f"SELECT info from {self.table_name};"
-        cur.execute(command)
-        result = cur.fetchall()
-        cur.close()
+        with self.conn.cursor() as cur:
+            command = f"SELECT info from {self.table_name};"
+            cur.execute(command)
+            result = cur.fetchall()
         return result
 
     def connect(self):
